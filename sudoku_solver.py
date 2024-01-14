@@ -1,14 +1,21 @@
-sudoku = [
-    [8, 0, 6, 0, 1, 0, 0, 0, 0],
-    [0, 0, 3, 0, 6, 4, 0, 9, 0],
-    [9, 0, 0, 0, 0, 0, 8, 1, 6],
-    [0, 8, 0, 3, 9, 6, 0, 0, 0],
-    [7, 0, 2, 0, 4, 0, 3, 0, 9],
-    [0, 0, 0, 5, 7, 2, 0, 8, 0],
-    [5, 2, 1, 0, 0, 0, 0, 0, 4],
-    [0, 3, 0, 7, 5, 0, 2, 0, 0],
-    [0, 0, 0, 0, 2, 0, 1, 0, 5]
+import copy
+
+
+original_sudoku = [
+    [0, 0, 4, 0, 5, 0, 0, 0, 0],
+    [9, 0, 0, 7, 3, 4, 6, 0, 0],
+    [0, 0, 3, 0, 2, 1, 0, 4, 9],
+    [0, 3, 5, 0, 9, 0, 4, 8, 0],
+    [0, 9, 0, 0, 0, 0, 0, 3, 0],
+    [0, 7, 6, 0, 1, 0, 9, 2, 0],
+    [3, 1, 0, 9, 7, 0, 2, 0, 0],
+    [0, 0, 9, 1, 8, 2, 0, 0, 3],
+    [0, 0, 0, 0, 6, 0, 1, 0, 0]
 ]
+
+
+sudoku = copy.deepcopy(original_sudoku)
+
 
 notsolved = True
 
@@ -131,13 +138,27 @@ def loop_through():
 
 
 ctr = 0
+# old = copy.deepcopy(sudoku)
+# new = copy.deepcopy(sudoku)
+
 while ctr<81:
     ctr = 0
     for element in possible_values:
         if len(element)==1:
             ctr+=1
     loop_through()
+
     
+
+print("Original Sudoku")
+for i in range(9):
+    print(original_sudoku[i])
+
+print()
+
+print("Solved Sudoku")
+for i in range(9):
+    print(sudoku[i])
     
 
 
