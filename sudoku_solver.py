@@ -2,15 +2,15 @@ import copy
 
 
 original_sudoku = [
-    [6, 0, 0, 3, 9, 0, 4, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 7],
-    [0, 0, 0, 0, 0, 0, 0, 0, 5],
-    [0, 6, 0, 0, 0, 9, 0, 0, 8],
-    [0, 5, 0, 7, 0, 2, 0, 0, 9],
-    [0, 4, 2, 5, 0, 6, 0, 0, 0],
-    [5, 2, 0, 0, 0, 7, 0, 0, 0],
-    [0, 0, 0, 4, 0, 0, 0, 0, 2],
-    [0, 0, 0, 0, 5, 0, 9, 7, 0]
+    [3, 0, 0, 0, 0, 0, 0, 0, 0],
+    [6, 5, 0, 0, 1, 0, 0, 7, 0],
+    [0, 0, 4, 2, 0, 7, 5, 0, 0],
+    [0, 0, 0, 9, 0, 0, 0, 0, 0],
+    [0, 0, 0, 7, 0, 0, 0, 0, 9],
+    [0, 9, 0, 0, 6, 3, 0, 4, 2],
+    [1, 7, 5, 0, 3, 0, 0, 6, 4],
+    [0, 4, 0, 0, 0, 0, 0, 0, 5],
+    [0, 0, 8, 0, 0, 0, 0, 0, 0]
 ]
 
 
@@ -200,28 +200,28 @@ while True:
 
 
 print('manipulation')
-sudoku[8][8] = 6
-possible_values[80] = [6]
+sudoku[2][4] = 9 #9
+possible_values[2*9+4] = [9]
 while True:
     old = copy.deepcopy(sudoku)
     loop_through()
-    # valid_sudoku()
+    valid_sudoku()
     if sudoku==old:
         break
 
-valid_sudoku()
+# valid_sudoku()
 
-print('manipulation 2')
-sudoku[8][5] = 8
-possible_values[77] = [8]
-while True:
-    old = copy.deepcopy(sudoku)
-    loop_through()
-    # valid_sudoku()
-    if sudoku==old:
-        break
+# print('manipulation 2')
+# sudoku[8][5] = 8
+# possible_values[77] = [8]
+# while True:
+#     old = copy.deepcopy(sudoku)
+#     loop_through()
+#     # valid_sudoku()
+#     if sudoku==old:
+#         break
 
-valid_sudoku()
+# valid_sudoku()
 
 # print('manipulation 3')
 # sudoku[8][1] = 3
