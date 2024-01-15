@@ -2,15 +2,15 @@ import copy
 
 
 original_sudoku = [
-    [0, 0, 4, 0, 5, 0, 0, 0, 0],
-    [9, 0, 0, 7, 3, 4, 6, 0, 0],
-    [0, 0, 3, 0, 2, 1, 0, 4, 9],
-    [0, 3, 5, 0, 9, 0, 4, 8, 0],
-    [0, 9, 0, 0, 0, 0, 0, 3, 0],
-    [0, 7, 6, 0, 1, 0, 9, 2, 0],
-    [3, 1, 0, 9, 7, 0, 2, 0, 0],
-    [0, 0, 9, 1, 8, 2, 0, 0, 3],
-    [0, 0, 0, 0, 6, 0, 1, 0, 0]
+    [6, 0, 0, 3, 9, 0, 4, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 7],
+    [0, 0, 0, 0, 0, 0, 0, 0, 5],
+    [0, 6, 0, 0, 0, 9, 0, 0, 8],
+    [0, 5, 0, 7, 0, 2, 0, 0, 9],
+    [0, 4, 2, 5, 0, 6, 0, 0, 0],
+    [5, 2, 0, 0, 0, 7, 0, 0, 0],
+    [0, 0, 0, 4, 0, 0, 0, 0, 2],
+    [0, 0, 0, 0, 5, 0, 9, 7, 0]
 ]
 
 
@@ -36,14 +36,14 @@ for i in range(9):
 # print(possible_values)
             
 # Checking numbers in the boxes
-def check_box(rs, re, cs, ce):
-    for i in range(rs, re+1):
-        for ii in range(cs, ce+1):
+def check_box(rs, cs):
+    for i in range(rs, rs+3):
+        for ii in range(cs, cs+3):
             if len(possible_values[9*i+ii])==1:
                 value = sudoku[i][ii]
                 # print(value)
-                for iii in range(rs, re+1):
-                    for iv in range(cs, ce+1):
+                for iii in range(rs, rs+3):
+                    for iv in range(cs, cs+3):
                         if len(possible_values[9*iii+iv])!=1:
                             if value in possible_values[9*iii+iv]:
                                 possible_values[9*iii+iv].remove(value)
@@ -88,15 +88,15 @@ def check_column(ii):
 
 def loop_through():
 
-    check_box(0, 2, 0, 2)
-    check_box(0, 2, 3, 5)
-    check_box(0, 2, 6, 8)
-    check_box(3, 5, 0, 2)
-    check_box(3, 5, 3, 5)
-    check_box(3, 5, 6, 8)
-    check_box(6, 8, 0, 2)
-    check_box(6, 8, 3, 5)
-    check_box(6, 8, 6, 8)
+    check_box(0, 0)
+    check_box(0, 3)
+    check_box(0, 6)
+    check_box(3, 0)
+    check_box(3, 3)
+    check_box(3, 6)
+    check_box(6, 0)
+    check_box(6, 3)
+    check_box(6, 6)
 
     # for i in range(0, 9):
     #     for j in range(0, 9):
@@ -133,22 +133,115 @@ def loop_through():
     print()
     print()
 
-        
 
 
 
-ctr = 0
-# old = copy.deepcopy(sudoku)
-# new = copy.deepcopy(sudoku)
 
-while ctr<81:
+
+
+
+def valid_box(rs, cs, num):
     ctr = 0
-    for element in possible_values:
-        if len(element)==1:
+    for i in range(rs, rs+3):
+        for j in range(cs, cs+3):
+            if sudoku[i][j] == num:
+                ctr+=1
+    if ctr>1:
+        print('not valid')
+        return False
+    else:
+        return True
+
+   
+def valid_row(r, num):
+    ctr = 0
+    for i in range(0, 9):
+        if sudoku[r][i] == num:
             ctr+=1
+    if ctr>1:
+        print('not valid')
+        return False
+    else: 
+        return True
+
+def valid_column(c, num):
+    ctr = 0
+    for i in range(0, 9):
+        if sudoku[i][c] == num:
+            ctr+=1
+    if ctr>1:
+        print('not valid')
+        return False
+    else:
+        return True
+
+def valid_sudoku():
+
+    ctr = 0
+    for i in range(1, 10):
+        if valid_box(0, 3, i) and valid_box(0, 0, i) and valid_box(0, 6, i) and valid_box(3, 0, i) and valid_box(3, 3, i) and valid_box(3, 6, i) and valid_box(6, 0, i) and valid_box(6, 3, i) and valid_box(6, 6, i) and valid_row(0, i) and valid_row(1, i) and valid_row(2, i) and valid_row(3, i) and valid_row(4, i) and valid_row(5, i) and valid_row(6, i) and valid_row(7, i) and valid_row(8, i) and valid_column(0, i) and valid_column(1, i) and valid_column(2, i) and valid_column(3, i) and valid_column(4, i) and valid_column(5, i) and valid_column(6, i) and valid_column(7, i) and valid_column(8, i):
+            pass
+        else:
+            # print("Nope not valid")
+            ctr+=1
+    print(f'ctr = {ctr}')
+
+
+
+
+
+
+while True:
+    old = copy.deepcopy(sudoku)
     loop_through()
+    # valid_sudoku()
+    if sudoku==old:
+        break
+
+
+print('manipulation')
+sudoku[8][8] = 6
+possible_values[80] = [6]
+while True:
+    old = copy.deepcopy(sudoku)
+    loop_through()
+    # valid_sudoku()
+    if sudoku==old:
+        break
+
+valid_sudoku()
+
+print('manipulation 2')
+sudoku[8][5] = 8
+possible_values[77] = [8]
+while True:
+    old = copy.deepcopy(sudoku)
+    loop_through()
+    # valid_sudoku()
+    if sudoku==old:
+        break
+
+valid_sudoku()
+
+# print('manipulation 3')
+# sudoku[8][1] = 3
+# possible_values[73] = [3]
+# while True:
+#     old = copy.deepcopy(sudoku)
+#     loop_through()
+#     # valid_sudoku()
+#     if sudoku==old:
+#         break
+
+# valid_sudoku()
+
+
 
     
+
+
+
+
 
 print("Original Sudoku")
 for i in range(9):
