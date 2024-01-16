@@ -126,9 +126,9 @@ def loop_through():
     check_column(7)
     check_column(8)
 
-    for i in range(0, 9):
-        for j in range(0, 9):
-            print(f'{i}, {j} : {possible_values[9*i+j]}')
+    # for i in range(0, 9):
+    #     for j in range(0, 9):
+    #         print(f'{i}, {j} : {possible_values[9*i+j]}')
 
     print()
     print()
@@ -179,61 +179,99 @@ def valid_sudoku():
 
     ctr = 0
     for i in range(1, 10):
-        if valid_box(0, 3, i) and valid_box(0, 0, i) and valid_box(0, 6, i) and valid_box(3, 0, i) and valid_box(3, 3, i) and valid_box(3, 6, i) and valid_box(6, 0, i) and valid_box(6, 3, i) and valid_box(6, 6, i) and valid_row(0, i) and valid_row(1, i) and valid_row(2, i) and valid_row(3, i) and valid_row(4, i) and valid_row(5, i) and valid_row(6, i) and valid_row(7, i) and valid_row(8, i) and valid_column(0, i) and valid_column(1, i) and valid_column(2, i) and valid_column(3, i) and valid_column(4, i) and valid_column(5, i) and valid_column(6, i) and valid_column(7, i) and valid_column(8, i):
+        if valid_box(0, 0, i) and valid_box(0, 3, i) and valid_box(0, 6, i) and valid_box(3, 0, i) and valid_box(3, 3, i) and valid_box(3, 6, i) and valid_box(6, 0, i) and valid_box(6, 3, i) and valid_box(6, 6, i) and valid_row(0, i) and valid_row(1, i) and valid_row(2, i) and valid_row(3, i) and valid_row(4, i) and valid_row(5, i) and valid_row(6, i) and valid_row(7, i) and valid_row(8, i) and valid_column(0, i) and valid_column(1, i) and valid_column(2, i) and valid_column(3, i) and valid_column(4, i) and valid_column(5, i) and valid_column(6, i) and valid_column(7, i) and valid_column(8, i):
             pass
         else:
             # print("Nope not valid")
             ctr+=1
     print(f'ctr = {ctr}')
+    if ctr == 0:
+        return True
+    else:
+        return False
+    
+def all_full():
+    ctr = 0
+    for i in range(9):
+        for j in range(9):
+            if sudoku[i][j]==0:
+                ctr+=1
+    if(ctr>0):
+        return False
+    else:
+        return True
+
+def try_solving():
+    while True:
+        old = copy.deepcopy(sudoku)
+        loop_through()
+        valid_sudoku()
+        if sudoku==old:
+            break
+
+    print("Original Sudoku")
+    for i in range(9):
+        print(original_sudoku[i])
+
+    print()
+
+    print("Solved Sudoku")
+    for i in range(9):
+        print(sudoku[i])
 
 
 
 
+temp = try_solving()
 
 
-while True:
-    old = copy.deepcopy(sudoku)
-    loop_through()
-    # valid_sudoku()
-    if sudoku==old:
-        break
-
-
-print('manipulation')
-sudoku[2][4] = 9 #9
-possible_values[2*9+4] = [9]
-while True:
-    old = copy.deepcopy(sudoku)
-    loop_through()
-    valid_sudoku()
-    if sudoku==old:
-        break
-
-# valid_sudoku()
-
-# print('manipulation 2')
-# sudoku[8][5] = 8
-# possible_values[77] = [8]
+# print('manipulation')
+# sudoku[2][4] = 9 #9
+# possible_values[2*9+4] = [9]
 # while True:
 #     old = copy.deepcopy(sudoku)
 #     loop_through()
-#     # valid_sudoku()
+#     valid_sudoku()
 #     if sudoku==old:
 #         break
 
-# valid_sudoku()
 
-# print('manipulation 3')
-# sudoku[8][1] = 3
-# possible_values[73] = [3]
-# while True:
-#     old = copy.deepcopy(sudoku)
-#     loop_through()
-#     # valid_sudoku()
-#     if sudoku==old:
-#         break
 
-# valid_sudoku()
+
+
+# history = [{'og_sudoku' = 0, 'manipulated_data_point' = 0, 'data_value' = 0}]
+history = []
+assumed_value = 0
+flag = False
+for i in range(0, 9):
+    for ii in range(0,9):
+        if len(possible_values[9*i+ii])==2:
+            assumed_value = possible_values[9*i+ii][1]
+            history = [copy.deepcopy(sudoku), copy.deepcopy(possible_values), i, ii, assumed_value]
+            print(f'history = {history}')
+            sudoku[i][ii] = assumed_value
+            possible_values[9*i+ii]=[assumed_value]
+
+
+            if valid_sudoku() and all_full():     
+                flag = True
+                print(f'flag = True')
+            else:
+                sudoku = history[0]
+                possible_values = history[1]
+                print(f'flag = False')
+            print(f'sudoku = {sudoku}')
+        if flag == True:
+            break
+    if flag == True:
+        break
+
+temp = try_solving()
+
+print(history)
+            
+
+
 
 
 
@@ -241,17 +279,6 @@ while True:
 
 
 
-
-
-print("Original Sudoku")
-for i in range(9):
-    print(original_sudoku[i])
-
-print()
-
-print("Solved Sudoku")
-for i in range(9):
-    print(sudoku[i])
     
 
 
