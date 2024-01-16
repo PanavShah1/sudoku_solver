@@ -2,15 +2,15 @@ import copy
 
 
 original_sudoku = [
-    [0, 0, 5, 0, 0, 0, 1, 0, 0],
-    [0, 7, 0, 5, 0, 1, 3, 2, 0],
-    [0, 6, 0, 0, 0, 0, 7, 0, 0],
-    [0, 0, 0, 9, 4, 3, 0, 0, 0],
-    [8, 0, 0, 2, 0, 0, 0, 0, 9],
-    [9, 2, 4, 0, 7, 0, 0, 1, 0],
-    [0, 0, 0, 0, 0, 4, 0, 0, 5],
-    [5, 4, 0, 1, 0, 9, 0, 0, 0],
-    [0, 0, 6, 0, 0, 2, 0, 4, 1]
+    [0, 0, 7, 0, 0, 0, 8, 2, 0],
+    [0, 9, 0, 0, 0, 1, 0, 0, 0],
+    [0, 4, 0, 9, 7, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 5, 4, 0, 6],
+    [0, 0, 3, 0, 0, 0, 7, 0, 0],
+    [5, 0, 6, 7, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 8, 4, 0, 5, 0],
+    [0, 0, 0, 6, 0, 0, 0, 1, 0],
+    [0, 2, 4, 0, 0, 0, 6, 0, 0]
 ]
 
 
@@ -209,9 +209,9 @@ def try_solving():
         if sudoku==old:
             break
 
-    print("Original Sudoku")
-    for i in range(9):
-        print(original_sudoku[i])
+    # print("Original Sudoku")
+    # for i in range(9):
+    #     print(original_sudoku[i])
 
     print()
 
@@ -219,45 +219,66 @@ def try_solving():
     for i in range(9):
         print(sudoku[i])
 
-
-
-
 try_solving()
 
 
+def try_cases(num, length):
+    history = []
+    assumed_value = 0
+    flag = False
+    global possible_values
+    global sudoku
+    for i in range(0, 9):
+        for ii in range(0,9):
+            if len(possible_values[9*i+ii])==length:
+                assumed_value = possible_values[9*i+ii][num]
+                history = [copy.deepcopy(sudoku), copy.deepcopy(possible_values), i, ii, assumed_value]
+                print(f'history = {history}')
+                sudoku[i][ii] = assumed_value
+                possible_values[9*i+ii]=[assumed_value]
+                try_solving()
 
-
-
-history = []
-assumed_value = 0
-flag = False
-for i in range(0, 9):
-    for ii in range(0,9):
-        if len(possible_values[9*i+ii])==2:
-            assumed_value = possible_values[9*i+ii][0]
-            history = [copy.deepcopy(sudoku), copy.deepcopy(possible_values), i, ii, assumed_value]
-            print(f'history = {history}')
-            sudoku[i][ii] = assumed_value
-            possible_values[9*i+ii]=[assumed_value]
-            try_solving()
-
-            if valid_sudoku() and all_full():     
-                flag = True
-                print(f'valid_sudoku = {valid_sudoku()} + all_full = {all_full()} + flag = True')
-            else:
-                sudoku = history[0]
-                possible_values = history[1]
-                print(f'valid_sudoku = {valid_sudoku()} + all_full = {all_full()} + flag = False')
-            print(f'sudoku = {sudoku}')
+                if valid_sudoku() and all_full():     
+                    flag = True
+                    print(f'valid_sudoku = {valid_sudoku()} + all_full = {all_full()} + flag = True')
+                else:
+                    sudoku = history[0]
+                    possible_values = history[1]
+                    print(f'valid_sudoku = {valid_sudoku()} + all_full = {all_full()} + flag = False')
+                print(f'sudoku = {sudoku}')
+            if flag == True:
+                break
         if flag == True:
             break
-    if flag == True:
-        break
 
-temp = try_solving()
+    try_solving()
 
-print(f'history = {history[0]}\n{history[1]}\n{history[2]}\n{history[3]}\n{history[4]}')
+    print("NEEDED")
+    print(f'history = {history[0]}\n{history[1]}\n{history[2]}\n{history[3]}\n{history[4]}')
 
+
+
+
+print('guess')
+if not valid_sudoku() or not all_full():
+    print('0, 2')
+    try_cases(0, 2)
+
+if not valid_sudoku() or not all_full():
+    print('1, 2')
+    try_cases(1, 2)
+
+if not valid_sudoku() or not all_full():
+    print('0, 3')
+    try_cases(0, 3)
+
+if not valid_sudoku() or not all_full():
+    print('1, 3')
+    try_cases(1, 3)
+
+if not valid_sudoku() or not all_full():
+    print('2, 3')
+    try_cases(2, 3)
 
 
 
